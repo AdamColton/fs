@@ -5,7 +5,7 @@ import (
 	"os"
 )
 
-var Std O = StdFS{}
+var Std Filesystem = StdFS{}
 
 type Filesystem interface {
 	Open(name string) (File, error)
@@ -29,9 +29,9 @@ type File interface {
 // osFS implements fileSystem using the local disk.
 type StdFS struct{}
 
-func (StdFS) Open(name string) (file, error)            { return os.Open(name) }
+func (StdFS) Open(name string) (File, error)            { return os.Open(name) }
 func (StdFS) Stat(name string) (os.FileInfo, error)     { return os.Stat(name) }
-func (StdFS) Create(name string) (file, error)          { return os.Create(name) }
+func (StdFS) Create(name string) (File, error)          { return os.Create(name) }
 func (StdFS) Mkdir(name string, perm os.FileMode) error { return os.Mkdir(name, perm) }
 func (StdFS) RemoveAll(path string) error               { return os.RemoveAll(path) }
 func (StdFS) Rename(oldpath, newpath string) error      { return os.Rename(oldpath, newpath) }
